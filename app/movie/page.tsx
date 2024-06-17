@@ -226,7 +226,7 @@ const App = async ({ searchParams }: { searchParams: { name: string } }) => {
             </button>
           </div>
           </div>
-        <h4 className='flex justify-center mt-8 text-gray-300 font-fun font-semibold'>Skip button has been disabled due to Movie and Youtube API limit ⏱️</h4>
+        <h4 className='flex justify-center mt-8 text-gray-300 font-fun font-semibold'>Next button has been disabled due to Movie and Youtube API limit ⏱️</h4>
       </div>
     </div>
   );

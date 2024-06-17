@@ -1,35 +1,39 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import YoutubeVideo from './YoutubeVideo';
 import GenreButtons from './GenreButtons';
 
-const MovieBox = ({ movie_title, movie_year, movie_rating, movie_genres, movie_description, video_id }) => {
+interface MovieBoxProps {
+  movie_title: string;
+  movie_year: number;
+  movie_rating: string;
+  movie_genres: (string | undefined)[];
+  movie_description: string;
+  video_id: Promise<string> | string;
+}
 
-  for (let i = 0; i < movie_genres.length; i++) {
-    if (movie_genres[i] === undefined) {
-      movie_genres.splice(i, 1);
-      i--; 
-    }
-  }
+const MovieBox: FC<MovieBoxProps> = ({ movie_title, movie_year, movie_rating, movie_genres, movie_description, video_id }) => {
+  // Clean up genres array to remove undefined values
+  const cleanedGenres = movie_genres.filter((genre): genre is string => genre !== undefined);
 
-  var shorter_desc = movie_description.split('.');
-  var new_desc = ""
-  var total_char = 0
-  for (let i = 0; i < shorter_desc.length; i++) {
-    if (total_char < 250){
-      new_desc = new_desc + shorter_desc[i] + '.'
-      total_char = total_char + shorter_desc[i].length
-    }
-    else {
-      movie_description = new_desc
-      break
-    }
-  }
+  // Shorten the description to 250 characters or less
+  const shortenDescription = (description: string): string => {
+    const sentences = description.split('.');
+    let newDesc = '';
+    let totalChar = 0;
 
-  if (movie_description === ""){
-    movie_description = "Movie description is unavailable. Try watching the trailer!"
-  } else if (movie_description === undefined){
-    movie_description = "Movie description is unavailable. Try watching the trailer!"
-  }
+    for (const sentence of sentences) {
+      if (totalChar + sentence.length + 1 < 250) { // +1 for the period
+        newDesc += sentence + '.';
+        totalChar += sentence.length + 1;
+      } else {
+        break;
+      }
+    }
+
+    return newDesc || 'Movie description is unavailable. Try watching the trailer!';
+  };
+
+  const resolvedDescription = shortenDescription(movie_description);
 
   return (
     <div className=''>
@@ -37,14 +41,13 @@ const MovieBox = ({ movie_title, movie_year, movie_rating, movie_genres, movie_d
         <YoutubeVideo video_id={video_id}/>
       </div>
       <div className='bg-zinc-700/30 w-[640px] p-5'>
-          <div>
-            <h2 className='text-white text-xl font-fun font-bold mb-3'>{movie_title}</h2>
-            <p className='text-white'>{movie_year} ⋅ ⭐️<span className='font-bold'>{movie_rating}</span>/10</p>
-            <GenreButtons genres={movie_genres}/>
-          </div>
-        <p className='text-white'>{movie_description}</p>
+        <div>
+          <h2 className='text-white text-xl font-fun font-bold mb-3'>{movie_title}</h2>
+          <p className='text-white'>{movie_year} ⋅ ⭐️<span className='font-bold'>{movie_rating}</span>/10</p>
+          <GenreButtons genres={cleanedGenres}/>
+        </div>
+        <p className='text-white'>{resolvedDescription}</p>
       </div>
-      
     </div>
   );
 };

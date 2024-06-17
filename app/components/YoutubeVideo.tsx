@@ -1,8 +1,12 @@
-'use client'
+'use client';
 import YouTube from 'react-youtube';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 
-const YoutubeVideo = ({ video_id }) => {
+interface YoutubeVideoProps {
+  video_id: string | Promise<string>;
+}
+
+const YoutubeVideo: FC<YoutubeVideoProps> = ({ video_id }) => {
   const [resolvedVideoId, setResolvedVideoId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -11,7 +15,9 @@ const YoutubeVideo = ({ video_id }) => {
       // If video_id is a promise, resolve it
       video_id.then((resolvedId: string) => {
         setResolvedVideoId(resolvedId);
-      })
+      }).catch(() => {
+        setResolvedVideoId(undefined);
+      });
     } else {
       // If video_id is not a promise, use it directly
       setResolvedVideoId(video_id);
