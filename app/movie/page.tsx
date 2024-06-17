@@ -131,7 +131,12 @@ const App = async ({ searchParams }: { searchParams: { name: string } }) => {
 
     const movie_json = await callMovieAPI(page_num, genre_id);
     // retrieves specific movie information
-    function retrieveMovieElements(movie_json, movie_count){
+    function retrieveMovieElements(movie_json: { results: { [x: string]: {
+      release_date: any;
+      title: any;
+      vote_average(vote_average: any): unknown;
+      genre_ids: any; overview: any; 
+}; }; }, movie_count: number){
         var movie_genres = []
         
         for (let i=0; i < movie_json.results[movie_count].genre_ids.length; i++){
