@@ -15,9 +15,7 @@ const YoutubeVideo: FC<YoutubeVideoProps> = ({ video_id }) => {
       // If video_id is a promise, resolve it
       video_id.then((resolvedId: string) => {
         setResolvedVideoId(resolvedId);
-      }).catch(() => {
-        setResolvedVideoId(undefined);
-      });
+      })
     } else {
       // If video_id is not a promise, use it directly
       setResolvedVideoId(video_id);
