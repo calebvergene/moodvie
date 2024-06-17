@@ -23,7 +23,7 @@ const YoutubeVideo: FC<YoutubeVideoProps> = ({ video_id }) => {
   }, [video_id]);
 
   if (!resolvedVideoId) {
-    return <div>No Movie Trailer😢</div>;
+    return <div></div>;
   }
 
   return (
