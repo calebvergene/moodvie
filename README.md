@@ -1,7 +1,4 @@
-<p align='center'><img src="MoodvieBig.png" alt="Logo" width="700" height="450"></p>
-<h1 align="center">moodvie</h2>
-<h3 align="center"> Get movie suggestions based on your mood!
-</h3>
+<p align='center'><img src="MoodvieBig.png" alt="Logo"></p>
 
 ## Technologies Used
 
